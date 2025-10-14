@@ -2,6 +2,8 @@ package com.example.web_demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="categories")
 public class Category {
@@ -11,6 +13,10 @@ public class Category {
     private int id;
 
     private String name;
+
+    // Her category birden fazla product içerebilir
+    @OneToMany(mappedBy = "category")
+    private List<Product> products; // kategorinin içindeki alanları temsil ediyor
 
     public int getId() {
         return id;
@@ -26,5 +32,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

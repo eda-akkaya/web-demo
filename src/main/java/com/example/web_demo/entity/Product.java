@@ -20,6 +20,10 @@ public class Product {
     @Column(name="description")
     private String description;
 
+    //Her product yalnızca bir category'e aittir.
+    @ManyToOne // FK hangi tablodaysa OneToMany; diğerine ManyToOne
+    @JoinColumn(name="category_id", nullable = true) //daha sonra false yap
+    private Category category; //getter-setter'ını da ekle
 
     public int getId() {
         return id;
@@ -59,5 +63,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
