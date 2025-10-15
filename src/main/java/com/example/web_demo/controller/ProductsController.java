@@ -20,15 +20,14 @@ public class ProductsController {
 
     @GetMapping()
     public List<Product> getAll(){
-        return null;
+        return productRepository.findAll();
     }
 
     //best-practice: Ekleme endpointleri ekleme sonrası entity'i geri döner.
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)// işlem başarılı olursa status code olarak bunu döner
     public Product add(@RequestBody Product product){
-        Random random = new Random();
-        product.setId(random.nextInt(1000));
+        productRepository.save(product);
         return product;
     }
 }
