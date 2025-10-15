@@ -1,5 +1,6 @@
 package com.example.web_demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Category {
 
     // Her category birden fazla product içerebilir
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> products; // kategorinin içindeki alanları temsil ediyor
 
     public int getId() {
