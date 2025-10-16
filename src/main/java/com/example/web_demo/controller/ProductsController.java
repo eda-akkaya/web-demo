@@ -1,5 +1,6 @@
 package com.example.web_demo.controller;
 
+import com.example.web_demo.dto.product.ProductForAddDto;
 import com.example.web_demo.entity.Product;
 import com.example.web_demo.repository.ProductRepository;
 import com.example.web_demo.service.ProductService;
@@ -27,8 +28,8 @@ public class ProductsController {
     //best-practice: Ekleme endpointleri ekleme sonrası entity'i geri döner.
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)// işlem başarılı olursa status code olarak bunu döner
-    public Product add(@RequestBody Product product){
-        return productService.add(product);
+    public Product add(@RequestBody ProductForAddDto productDto){
+        return productService.add(productDto);
 
     }
 }
