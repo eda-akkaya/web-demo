@@ -13,7 +13,7 @@ public class Product {
     private String name;
 
     @Column(name="unit_price")
-    private float price;
+    private float unitPrice;
 
     private float stock;
 
@@ -41,13 +41,14 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
-        return price;
+    public float getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
     }
+
 
     public float getStock() {
         return stock;
