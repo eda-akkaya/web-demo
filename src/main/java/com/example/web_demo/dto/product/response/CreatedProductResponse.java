@@ -5,15 +5,18 @@ public class CreatedProductResponse {
     private int id;
     private String name;
     private float stock;
-    private String desciption;
+    private String description;
     private float unitPrice;
+    private String categoryName;
 
-    public CreatedProductResponse(int id, String name, float stock, String desciption, float unitPrice) {
+    public CreatedProductResponse(int id, String name, float stock,
+                                  String description, float unitPrice, String categoryName) {
         this.id = id;
         this.name = name;
         this.stock = stock;
-        this.desciption = desciption;
+        this.description = description;
         this.unitPrice = unitPrice;
+        this.categoryName = categoryName;
     }
 
     public int getId() {
@@ -40,12 +43,12 @@ public class CreatedProductResponse {
         this.stock = stock;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public float getUnitPrice() {
@@ -54,5 +57,13 @@ public class CreatedProductResponse {
 
     public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }
