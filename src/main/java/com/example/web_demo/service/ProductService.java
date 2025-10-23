@@ -8,6 +8,7 @@ import com.example.web_demo.dto.product.response.SearchProductResponse;
 import com.example.web_demo.entity.Category;
 import com.example.web_demo.entity.Product;
 import com.example.web_demo.repository.ProductRepository;
+import com.example.web_demo.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -23,10 +24,12 @@ public class ProductService {
     // repository bağımlılığı
     // final: yalnızca construvtor üzerinden set edilebilir olması için
     private final ProductRepository productRepository;
+    private final ProductBusinessRules productBusinessRules;
     private final CategoryService categoryService;
 
-    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
+    public ProductService(ProductRepository productRepository, ProductBusinessRules productBusinessRules, CategoryService categoryService) {
         this.productRepository = productRepository;
+        this.productBusinessRules = productBusinessRules;
         this.categoryService = categoryService;
     }
 
@@ -36,7 +39,7 @@ public class ProductService {
         // İlgili kategori id ile bir kategori bulunmadığında hata fırlat
         // İş kuralları en üste yazılır ki hata fırlattığında işlem biter
 
-        productMustNotExistWithSameName(createProductRequest.getName());
+        productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
 
         // CategoryService'e bize verilen categoryId ile bir kategori bulmaya çalış,
         // bulamazsan hata fırlat
@@ -99,14 +102,5 @@ public class ProductService {
         return responseList;
     }
 
-    // Service içerisinde private business rule fonk.
-    private void productMustNotExistWithSameName(String name){
-        Product productWithSameName = productRepository
-                .findTop1ByNameIgnoreCase(name)
-                .orElse(null);
 
-        if (productWithSameName != null)
-            throw new RuntimeException("bu isim ile bir ürün zaten bulunmaktadır");
-
-    }
 }
