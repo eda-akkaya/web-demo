@@ -4,7 +4,9 @@ import com.example.web_demo.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 
 // JpaRepository -> ORM tool'unun, ilgili nesnenin (tablo) üzerinde işlem yapabilmesini sağlayan nesne
@@ -24,6 +26,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value="SELECT * FROM Product p WHERE LIKE UPPER(:name)", nativeQuery = true)
     List<Product> searchSql(String name);
 
+    // Optional: sonuç bulunmayabilir
+    Optional<Product> findTop1ByNameIgnoreCase(String name);
 
 
 }
