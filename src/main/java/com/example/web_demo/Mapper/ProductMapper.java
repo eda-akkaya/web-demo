@@ -1,6 +1,7 @@
 package com.example.web_demo.Mapper;
 
 import com.example.web_demo.dto.product.request.CreateProductRequest;
+import com.example.web_demo.dto.product.response.CreatedProductResponse;
 import com.example.web_demo.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,4 +16,10 @@ public interface ProductMapper {
     //createProductRequest -> Product
     @Mapping(target="category.id", source = "categoryId")
     Product createProductRequestToProduct(CreateProductRequest createProductRequest);
+
+    // Product -> CreatedProductResponse
+    @Mapping(target = "categoryName", source = "category.name")
+    @Mapping(target="categoryId", source ="category.id")
+    CreatedProductResponse productToCreatedProductResponse(Product product);
+
 }
