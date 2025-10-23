@@ -45,7 +45,7 @@ public class ProductService {
         // bulamazsan hata fırlat
         Category category = categoryService.findCategoryById(createProductRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
-        // hata fırlatırsa alt satırlara geçmeyeceği için if-else ihtiyyacı yok
+        // hata fırlatırsa alt satırlara geçmeyeceği için if-else ihtiyacı yok
         category.setId(createProductRequest.getCategoryId());
 
         Product product = new Product();
@@ -54,11 +54,11 @@ public class ProductService {
         product.setUnitPrice(createProductRequest.getUnitPrice());
         product.setStock(createProductRequest.getStock());
         product.setDescription(createProductRequest.getDescription());
-
-
-
         product.setCategory(category);
+
+
         productRepository.save(product);
+
         return new CreatedProductResponse(product.getId(),
                 product.getName(),
                 product.getStock(),
