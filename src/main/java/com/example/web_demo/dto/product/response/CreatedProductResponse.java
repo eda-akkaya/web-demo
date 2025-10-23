@@ -8,6 +8,7 @@ public class CreatedProductResponse {
     private String description;
     private float unitPrice;
     private String categoryName;
+    private int categoryId;
 
     public CreatedProductResponse(int id, String name, float stock,
                                   String description, float unitPrice, String categoryName) {
@@ -66,4 +67,13 @@ public class CreatedProductResponse {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }
