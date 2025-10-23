@@ -1,5 +1,6 @@
 package com.example.web_demo.service;
 
+import com.example.web_demo.Mapper.ProductMapper;
 import com.example.web_demo.dto.product.request.CreateProductRequest;
 import com.example.web_demo.dto.product.request.SearchProductRequest;
 import com.example.web_demo.dto.product.response.CreatedProductResponse;
@@ -8,6 +9,7 @@ import com.example.web_demo.dto.product.response.SearchProductResponse;
 import com.example.web_demo.entity.Category;
 import com.example.web_demo.entity.Product;
 import com.example.web_demo.repository.ProductRepository;
+import com.example.web_demo.rules.CategoryBusinessRules;
 import com.example.web_demo.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,18 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductBusinessRules productBusinessRules;
     private final CategoryService categoryService;
+    private final CategoryBusinessRules categoryBusinessRules;
+    private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository, ProductBusinessRules productBusinessRules, CategoryService categoryService) {
+    public ProductService(ProductRepository productRepository,
+                          ProductBusinessRules productBusinessRules,
+                          CategoryService categoryService,
+                          CategoryBusinessRules categoryBusinessRules) {
         this.productRepository = productRepository;
         this.productBusinessRules = productBusinessRules;
         this.categoryService = categoryService;
+        this.categoryBusinessRules = categoryBusinessRules;
+        this.productMapper = ProductMapper.INSTANCE;
     }
 
     public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest) {
@@ -40,31 +49,14 @@ public class ProductService {
         // İş kuralları en üste yazılır ki hata fırlattığında işlem biter
 
         productBusinessRules.productMustNotExistWithSameName(createProductRequest.getName());
+        Category category = categoryBusinessRules.categoryShouldExistWithGivenId(createProductRequest.getCategoryId());
 
-        // CategoryService'e bize verilen categoryId ile bir kategori bulmaya çalış,
-        // bulamazsan hata fırlat
-        Category category = categoryService.findCategoryById(createProductRequest.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
-        // hata fırlatırsa alt satırlara geçmeyeceği için if-else ihtiyacı yok
-        category.setId(createProductRequest.getCategoryId());
+        // mapstruct mapping
+        ProductMapper productMapper = ProductMapper.INSTANCE;
+        Product product = productMapper.createProductRequestToProduct(createProductRequest);
 
-        Product product = new Product();
-
-        product.setName(createProductRequest.getName());
-        product.setUnitPrice(createProductRequest.getUnitPrice());
-        product.setStock(createProductRequest.getStock());
-        product.setDescription(createProductRequest.getDescription());
-        product.setCategory(category);
-
-
-        productRepository.save(product);
-
-        return new CreatedProductResponse(product.getId(),
-                product.getName(),
-                product.getStock(),
-                product.getDescription(),
-                product.getUnitPrice(),
-                category.getName());
+        product=productRepository.save(product);
+        return productMapper.productToCreatedProductResponse(product);
     }
 
     public void update(){
