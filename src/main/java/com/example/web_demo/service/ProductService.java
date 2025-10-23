@@ -8,13 +8,16 @@ import com.example.web_demo.dto.product.response.SearchProductResponse;
 import com.example.web_demo.entity.Category;
 import com.example.web_demo.entity.Product;
 import com.example.web_demo.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Validated
 public class ProductService {
 
     // repository bağımlılığı
@@ -27,14 +30,13 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-    public CreatedProductResponse add(CreateProductRequest createProductRequest) {
-        // add logic
-        Product product = new Product();
+    public CreatedProductResponse add(@Valid CreateProductRequest createProductRequest) {
+        // Business rules
+        // Aynı isimden bir ürün daha eklememeli
+        // İlgili kategori id ile bir kategori bulunmadığında hata fırlat
+        // İş kuralları en üste yazılır ki hata fırlattığında işlem biter
 
-        product.setName(createProductRequest.getName());
-        product.setUnitPrice(createProductRequest.getUnitPrice());
-        product.setStock(createProductRequest.getStock());
-        product.setDescription(createProductRequest.getDescription());
+        productMustNotExistWithSameName(createProductRequest.getName());
 
         // CategoryService'e bize verilen categoryId ile bir kategori bulmaya çalış,
         // bulamazsan hata fırlat
@@ -42,6 +44,15 @@ public class ProductService {
                 .orElseThrow(() -> new NotFoundException("Bu id ile bir kategori bulunamadı."));
         // hata fırlatırsa alt satırlara geçmeyeceği için if-else ihtiyyacı yok
         category.setId(createProductRequest.getCategoryId());
+
+        Product product = new Product();
+
+        product.setName(createProductRequest.getName());
+        product.setUnitPrice(createProductRequest.getUnitPrice());
+        product.setStock(createProductRequest.getStock());
+        product.setDescription(createProductRequest.getDescription());
+
+
 
         product.setCategory(category);
         productRepository.save(product);
@@ -51,6 +62,10 @@ public class ProductService {
                 product.getDescription(),
                 product.getUnitPrice(),
                 category.getName());
+    }
+
+    public void update(){
+    //productMustNotExistWithSameName();
     }
 
     public GetByIdProductResponse getById(int id){
@@ -84,5 +99,14 @@ public class ProductService {
         return responseList;
     }
 
+    // Service içerisinde private business rule fonk.
+    private void productMustNotExistWithSameName(String name){
+        Product productWithSameName = productRepository
+                .findTop1ByNameIgnoreCase(name)
+                .orElse(null);
 
+        if (productWithSameName != null)
+            throw new RuntimeException("bu isim ile bir ürün zaten bulunmaktadır");
+
+    }
 }
