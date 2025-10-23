@@ -1,11 +1,23 @@
 package com.example.web_demo.dto.product.request;
 
-public class CreateProductRequest {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
+public class CreateProductRequest {
+    @NotBlank
     private String name;
+
+    @Positive
     private float unitPrice;
+
+    @Positive
     private float Stock;
+
+    @NotBlank
+    @Size(min = 10, max = 50)
     private String description;
+
     private int categoryId;
 
     public String getName() {
