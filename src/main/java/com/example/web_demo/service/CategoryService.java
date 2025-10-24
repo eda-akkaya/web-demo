@@ -19,13 +19,5 @@ public class CategoryService {
         this.categoryBusinessRules = categoryBusinessRules;
     }
 
-    // diğer servisler bu metodu kullanarak id'ye göre kategori bulabilsin
-    public Optional<Category> findCategoryById(int id){
-        //business rule buradan da çağrılabilir
 
-        // optional : o id ile kategori yoksa null dönmesi için.
-        // ya dönüş tipini Optional<Category> yapmak gerek ya da sonuna orElse eklenmeli
-        return  categoryRepository.findById(id);
-
-    }
 }

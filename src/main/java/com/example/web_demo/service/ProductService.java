@@ -1,5 +1,6 @@
 package com.example.web_demo.service;
 
+import com.example.web_demo.Core.exception.type.BusinessException;
 import com.example.web_demo.Mapper.ProductMapper;
 import com.example.web_demo.dto.product.request.CreateProductRequest;
 import com.example.web_demo.dto.product.request.SearchProductRequest;
@@ -14,7 +15,7 @@ import com.example.web_demo.rules.ProductBusinessRules;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.webjars.NotFoundException;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,9 @@ public class ProductService {
     }
 
     public GetByIdProductResponse getById(int id){
-        Product product = productRepository.findById(id).orElseThrow(()-> new NotFoundException("Bu id ile bir ürün bulunamadı."));
+        Product product = productRepository
+                .findById(id)
+                .orElseThrow(()-> new BusinessException("Bu id ile bir ürün bulunamadı."));
 
         // manuel mapping
         return new GetByIdProductResponse(product.getId(),

@@ -4,7 +4,7 @@ import com.example.web_demo.Core.exception.type.BusinessException;
 import com.example.web_demo.entity.Category;
 import com.example.web_demo.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
-import org.webjars.NotFoundException;
+
 
 @Component
 public class CategoryBusinessRules {
