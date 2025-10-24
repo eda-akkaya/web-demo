@@ -1,5 +1,6 @@
 package com.example.web_demo.rules;
 
+import com.example.web_demo.Core.exception.type.BusinessException;
 import com.example.web_demo.entity.Product;
 import com.example.web_demo.repository.ProductRepository;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class ProductBusinessRules {
                 .orElse(null);
 
         if (productWithSameName != null)
-            throw new RuntimeException("bu isim ile bir ürün zaten bulunmaktadır");
+            throw new BusinessException("bu isim ile bir ürün zaten bulunmaktadır");
 
     }
 }
