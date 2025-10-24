@@ -1,6 +1,11 @@
 package com.example.web_demo.dto.category.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class CreateCategoryRequest {
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String name;
 
     public String getName() {
