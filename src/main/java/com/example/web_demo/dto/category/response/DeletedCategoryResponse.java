@@ -3,6 +3,10 @@ package com.example.web_demo.dto.category.response;
 public class DeletedCategoryResponse {
     private int id;
 
+    public DeletedCategoryResponse(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
