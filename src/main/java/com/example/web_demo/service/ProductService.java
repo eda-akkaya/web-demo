@@ -1,7 +1,7 @@
 package com.example.web_demo.service;
 
 import com.example.web_demo.Core.exception.type.BusinessException;
-import com.example.web_demo.Mapper.ProductMapper;
+import com.example.web_demo.mapper.ProductMapper;
 import com.example.web_demo.dto.product.request.CreateProductRequest;
 import com.example.web_demo.dto.product.request.SearchProductRequest;
 import com.example.web_demo.dto.product.response.CreatedProductResponse;
