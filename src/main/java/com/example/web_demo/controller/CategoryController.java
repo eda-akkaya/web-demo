@@ -5,6 +5,7 @@ import com.example.web_demo.dto.category.request.UpdateCategoryRequest;
 import com.example.web_demo.dto.category.response.*;
 import com.example.web_demo.service.CategoryService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CreatedCategoryResponse add(@Valid @RequestBody CreateCategoryRequest request){
         return categoryService.add(request);
 
