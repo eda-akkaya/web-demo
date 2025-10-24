@@ -15,9 +15,22 @@ public class CategoryBusinessRules {
     }
 
     public Category categoryShouldExistWithGivenId(int id){
+        //böyle bir kategori varsa geri döndürür, yoksa hata fırlatır
         return categoryRepository
                 .findById(id)
                 .orElseThrow(()->new BusinessException("id'si " + id + "olan kategori bulunamadı."));
-
     }
+
+    public void categoryShouldNotExistWithSameName(String name){
+       Category category = categoryRepository
+                .findTop1ByNameIgnoreCase(name)
+               .orElse(null);
+
+       if (category != null){
+           throw new BusinessException("Adı " + name + " olan bir kategori zaten mevcut,ekleyemezsiniz.");
+       }
+    }
+
+
+
 }
