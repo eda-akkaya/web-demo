@@ -1,4 +1,4 @@
-package com.example.web_demo.Mapper;
+package com.example.web_demo.mapper;
 
 import com.example.web_demo.dto.product.request.CreateProductRequest;
 import com.example.web_demo.dto.product.response.CreatedProductResponse;
